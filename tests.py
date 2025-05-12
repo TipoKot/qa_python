@@ -95,3 +95,10 @@ class TestBooksCollector:
         collector.add_book_in_favorites('Гордость и предубеждение и зомби')
         collector.delete_book_from_favorites('Гордость и предубеждение и зомби')
         assert collector.favorites == []
+
+    # проверяем, что можно получить список Избранных книг
+    def test_get_list_of_favorites_books(self):
+        collector = BooksCollector()
+        collector.add_new_book('Гордость и предубеждение и зомби')
+        collector.add_book_in_favorites('Гордость и предубеждение и зомби')
+        assert 'Гордость и предубеждение и зомби' in collector.get_list_of_favorites_books()
