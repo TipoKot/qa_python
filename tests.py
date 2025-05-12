@@ -36,6 +36,13 @@ class TestBooksCollector:
         collector.add_new_book("")
         assert "" not in collector.get_books_genre().keys()
 
+    # проверяем что можно получить список книг для детей
+    def test_get_books_for_children(self):
+        collector = BooksCollector()
+        collector.add_new_book("Гордость и предубеждение и зомби")
+        collector.set_book_genre('Гордость и предубеждение и зомби', 'Фантастика')
+        assert 'Гордость и предубеждение и зомби' in collector.get_books_for_children()
+
     # проверяем что книги с возрастным рейтингом отсутствуют в списке книг для детей
     def test_get_books_for_children_no_adult_books(self):
         collector = BooksCollector()
@@ -43,6 +50,13 @@ class TestBooksCollector:
         # Устанавливаем жанр книги как 'Ужасы', который считается недопустимым для детей
         collector.set_book_genre('Что делать, если ваш кот хочет вас убить', 'Ужасы')
         assert 'Что делать, если ваш кот хочет вас убить' not in collector.get_books_for_children()
+
+    # проверяем, что книге можно присвоить жанр
+    def test_set_book_genre_with_valid_genre(self):
+        collector = BooksCollector()
+        collector.add_new_book('Что делать, если ваш кот хочет вас убить')
+        collector.set_book_genre('Что делать, если ваш кот хочет вас убить', 'Комедии')
+        assert 'Комедии' in collector.get_book_genre('Что делать, если ваш кот хочет вас убить') 
 
     # проверяем, что нельзя присвоить книге невалидный жанр
     def test_set_book_genre_with_invalid_genre(self):
@@ -62,10 +76,10 @@ class TestBooksCollector:
     def test_get_books_with_specific_genre_with_valid_genre(self):
         collector = BooksCollector()
         collector.add_new_book('Что делать, если ваш кот хочет вас убить')
-        collector.set_book_genre('Что делать, если ваш кот хочет вас убить', 'Ужасы')
+        collector.set_book_genre('Что делать, если ваш кот хочет вас убить', 'Детективы')
         collector.add_new_book('Гордость и предубеждение и зомби')
         collector.set_book_genre('Гордость и предубеждение и зомби', 'Ужасы')
-        assert 'Что делать, если ваш кот хочет вас убить' and 'Гордость и предубеждение и зомби' in collector.get_books_with_specific_genre('Ужасы')
+        assert 'Гордость и предубеждение и зомби' in collector.get_books_with_specific_genre('Ужасы')
 
     # проверяем, что можно получить словарь с добавленными книгами
     def test_get_books_genre(self):
